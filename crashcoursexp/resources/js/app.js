@@ -8,10 +8,13 @@ import VueRouter from 'vue-router';
 import VueAxios from 'vue-axios';
 import axios from 'axios';
 import {routes} from './routes';
+import VModal from 'vue-js-modal';
+import VueSession from 'vue-session';
 
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.use(VModal);
+Vue.use(VueSession);
 
 const router = new VueRouter({
     mode: 'history',

@@ -1,5 +1,5 @@
 import ExampleComponent from "./components/ExampleComponent";
-import home from "./components/home";
+import home from "./components/Home";
 
 export const routes = [
     {

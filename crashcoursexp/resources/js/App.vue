@@ -13,6 +13,7 @@
             </transition>
         </div>
         <VueFooter></VueFooter>
+
     </div>
 </template>
 
@@ -23,7 +24,7 @@
     export default {
         components: {
             VueHeader,
-            VueFooter
+            VueFooter,
         },
         data() {
             return {
