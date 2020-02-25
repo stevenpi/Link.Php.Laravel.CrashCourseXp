@@ -45,15 +45,12 @@
                 Promise.all([timer,]).then( () => {
                     if (this.userName !== "") {
                         // worked, do stuff
-                        this.$emit('loggedIn')
+                        this.$modal.hide('hello-world');
                     } else {
                         alert('Login Failed');
                     }
                     this.showLoading = false;
                 });
-            },
-            logout () {
-
             }
         },
         computed: mapGetters(["userId", "userName", "userEmail"]),

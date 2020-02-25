@@ -2150,15 +2150,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       Promise.all([timer]).then(function () {
         if (_this.userName !== "") {
           // worked, do stuff
-          _this.$emit('loggedIn');
+          _this.$modal.hide('hello-world');
         } else {
           alert('Login Failed');
         }
 
         _this.showLoading = false;
       });
-    },
-    logout: function logout() {}
+    }
   }),
   computed: Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])(["userId", "userName", "userEmail"])
 });
@@ -2226,6 +2225,12 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _LoginForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LoginForm */ "./resources/js/components/LoginForm.vue");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2263,7 +2268,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   computed: Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(["userId", "userName", "userEmail"]),
-  methods: {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])(["logout"]), {
     show: function show() {
       this.$modal.show('hello-world');
     },
@@ -2279,7 +2284,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.showModal = !this.showModal;
     }
-  }
+  })
 });
 
 /***/ }),
@@ -39740,7 +39745,14 @@ var render = function() {
             _vm.userName
               ? _c(
                   "a",
-                  { attrs: { href: "#" }, on: { click: function($event) {} } },
+                  {
+                    attrs: { href: "#" },
+                    on: {
+                      click: function($event) {
+                        return _vm.logout()
+                      }
+                    }
+                  },
                   [_vm._v("Logout")]
                 )
               : _vm._e()
@@ -39751,20 +39763,7 @@ var render = function() {
       _vm._v(" "),
       _c("modal", { attrs: { name: "hello-world", height: "30%" } }, [
         _c("div", { attrs: { id: "login-modal" } }, [
-          _c(
-            "div",
-            { staticClass: "left-item" },
-            [
-              _c("LoginForm", {
-                on: {
-                  loggedIn: function($event) {
-                    return _vm.toggle()
-                  }
-                }
-              })
-            ],
-            1
-          ),
+          _c("div", { staticClass: "left-item" }, [_c("LoginForm")], 1),
           _vm._v(" "),
           _c("div", { staticClass: "right-item" }, [
             _c("img", {
@@ -56798,6 +56797,7 @@ var state = {
   name: null,
   email: null
 };
+var client = new _ApiClient__WEBPACK_IMPORTED_MODULE_1__["default"]();
 var getters = {
   userId: function userId(state) {
     return state.id;
@@ -56815,33 +56815,52 @@ var actions = {
     return _asyncToGenerator(
     /*#__PURE__*/
     _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-      var client, user;
+      var user;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              client = new _ApiClient__WEBPACK_IMPORTED_MODULE_1__["default"]();
-              console.log("attempt to login with email ".concat(credentials.email, " and pw ").concat(credentials.password));
-              _context.next = 4;
+              _context.next = 2;
               return client.login(credentials.email, credentials.password);
 
-            case 4:
+            case 2:
               user = _context.sent;
 
-              // client.login(credentials.email, credentials.password).then((user) => {
               if (user) {
                 commit('login', user);
               } else {
                 console.log("login FAILED, user is ".concat(user));
-              } // });
+              }
 
-
-            case 6:
+            case 4:
             case "end":
               return _context.stop();
           }
         }
       }, _callee);
+    }))();
+  },
+  logout: function logout(_ref2) {
+    var commit = _ref2.commit;
+    return _asyncToGenerator(
+    /*#__PURE__*/
+    _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return client.logout();
+
+            case 2:
+              commit('logout');
+
+            case 3:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
     }))();
   }
 };
@@ -56850,6 +56869,11 @@ var mutations = {
     state.id = user.id;
     state.name = user.name;
     state.email = user.email;
+  },
+  logout: function logout(state) {
+    state.id = null;
+    state.name = null;
+    state.email = null;
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = ({

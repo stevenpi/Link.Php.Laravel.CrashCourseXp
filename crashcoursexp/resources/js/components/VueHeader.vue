@@ -7,13 +7,13 @@
                 <router-link :to="{ name: 'ExamplePage' }">ExamplePage</router-link>
 
                 <a href="#" v-if="!userName" v-on:click="toggle()" >Login</a>
-                <a href="#" v-if="userName" v-on:click="" >Logout</a>
+                <a href="#" v-if="userName" v-on:click="logout()" >Logout</a>
             </nav>
         </div>
         <modal name="hello-world" height="30%">
             <div id="login-modal">
                 <div class="left-item">
-                    <LoginForm v-on:loggedIn="toggle()" />
+                    <LoginForm />
                 </div>
                 <div class="right-item">
                     <img class="fill" src="images/pic02.jpg" alt="Pic 02" />
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-    import { mapGetters } from "vuex";
+    import { mapGetters, mapActions } from "vuex";
     import LoginForm from "./LoginForm";
 
     export default {
@@ -36,9 +36,9 @@
                 showModal: false,
             }
         },
-        computed: mapGetters(["userId", "userName", "userEmail"])
-        ,
+        computed: mapGetters(["userId", "userName", "userEmail"]),
         methods : {
+            ...mapActions(["logout"]),
             show () {
                 this.$modal.show('hello-world');
             },
@@ -52,7 +52,7 @@
                     this.show();
                 }
                 this.showModal = !this.showModal;
-            }
+            },
         }
     }
 </script>
