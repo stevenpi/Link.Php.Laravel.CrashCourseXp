@@ -25,8 +25,8 @@
         },
         data() {
             return {
-                email: null,
-                password: null,
+                email: "email@example.com",
+                password: "1234",
                 remember_me: null,
                 showLoading: false,
             }

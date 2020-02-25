@@ -5,6 +5,7 @@
                 <h2>Nunc Dignissim</h2>
                 <p>Aliquam erat volutpat nam dui </p>
             </header>
+
             <div class="image round left">
                 <img src="images/pic01.jpg" alt="Pic 01" />
             </div>
@@ -23,8 +24,6 @@
 
 <script>
     export default {
-        mounted() {
-            console.log('Component mounted.')
-        }
+        name: 'ExampleComponent'
     }
 </script>

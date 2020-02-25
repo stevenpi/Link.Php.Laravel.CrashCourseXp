@@ -5,9 +5,11 @@
             <nav id="nav">
                 <router-link :to="{ name: 'Home' }">Home</router-link>
                 <router-link :to="{ name: 'ExamplePage' }">ExamplePage</router-link>
-
                 <a href="#" v-if="!userName" v-on:click="toggle()" >Login</a>
-                <a href="#" v-if="userName" v-on:click="logout()" >Logout</a>
+                <template v-else>
+                    <router-link :to="{ name: 'UserDetail' }">User</router-link>
+                    <a href="#"  v-on:click="logout()" >Logout</a>
+                </template>
             </nav>
         </div>
         <modal name="hello-world" height="30%">
