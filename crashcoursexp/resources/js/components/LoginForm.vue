@@ -5,17 +5,18 @@
                 <input v-model="email" type="text" placeholder="Please enter your email"/>
                 <input v-model="password" type="password" placeholder="********"/>
                 <input v-model="remember_me" type="checkbox" name="remember"/>
-                <input type="submit" value="Log in" v-on:click="login()" />
+                <input type="submit" value="Log in" v-on:click="loginUi()" />
             </form>
             <div id="LoadingSpinnerWrapper" v-else key="2">
-                <LoadingSpinner></LoadingSpinner>
+                <LoadingSpinner/>
             </div>
         </transition>
     </div>
 </template>
 <script>
-    import ApiClient from "./../ApiClient";
     import LoadingSpinner from "./LoadingSpinner";
+
+    import { mapGetters, mapActions } from "vuex";
 
     export default {
         name: 'LoginForm',
@@ -24,7 +25,6 @@
         },
         data() {
             return {
-                apiClient: new ApiClient(),
                 email: null,
                 password: null,
                 remember_me: null,
@@ -32,20 +32,20 @@
             }
         },
         methods: {
-            login () {
+            ...mapActions(["login"]),
+            loginUi () {
                 this.showLoading = true;
-                let success;
-                var myTimerPromise = new Promise((resolve, reject) => {
+                const timer = new Promise((resolve, reject) => {
                     setTimeout(() => {
-                        console.log("1.5 seconds up, resolving myTimerPromise");
+                        this.login({email: this.email, password: this.password });
                         resolve();
-                    }, 1500);  // This promise will be resolved in 2000 milli-seconds
-                    success = this.apiClient.login(this.email, this.password);
+                    }, 1500);  // This promise will be resolved in 1500 milli-seconds
+
                 });
-                Promise.all([myTimerPromise,]).then( () => {
-                    if (success) {
-                        this.$session.set('loggedIn', true);
-                        this.$router.push({ name: 'Home' });
+                Promise.all([timer,]).then( () => {
+                    if (this.userName !== "") {
+                        // worked, do stuff
+                        this.$emit('loggedIn')
                     } else {
                         alert('Login Failed');
                     }
@@ -53,9 +53,10 @@
                 });
             },
             logout () {
-                this.apiClient.logout();
+
             }
-        }
+        },
+        computed: mapGetters(["userId", "userName", "userEmail"]),
     }
 </script>
 <style scoped>

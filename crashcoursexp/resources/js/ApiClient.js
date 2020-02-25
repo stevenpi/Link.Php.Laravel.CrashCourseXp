@@ -15,21 +15,28 @@ export default class ApiClient {
     async login(email, password) {
         console.log("Attempt to login...");
         let token;
-        this.axiosInstance.post('auth/login', {
+        let user;
+        await this.axiosInstance.post('auth/login', {
             email: email,
             password: password,
         })
-        .then(function (response) {
+        .then((response) => {
             token = response.data['access_token'];
-            console.log('Login Successful');
-            return true;
+            this.axiosInstance.defaults.headers['Authorization'] = "Bearer " + token;
+            user =  {
+                id: response.data['user']['id'],
+                name: response.data['user']['name'],
+                email: response.data['user']['email'],
+            };
+            console.log("logged in user");
+            console.log(user);
 
         })
         .catch(function (error) {
             console.log('Login Failed');
-            return false;
+            console.log(error);
         });
-        this.axiosInstance.defaults.headers['Authorization'] = "Bearer " + token;
+        return user;
     }
 
     logout() {
