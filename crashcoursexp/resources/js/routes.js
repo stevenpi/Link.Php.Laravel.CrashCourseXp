@@ -1,5 +1,5 @@
-import ExampleComponent from "./components/ExampleComponent";
-import home from "./components/Home";
+import ExampleComponent from "./components/layouts/ExampleComponent";
+import home from "./components/layouts/Home";
 
 export const routes = [
     {
