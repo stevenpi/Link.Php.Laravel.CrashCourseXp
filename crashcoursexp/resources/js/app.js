@@ -10,10 +10,12 @@ import axios from 'axios';
 import {routes} from './routes';
 import VModal from 'vue-js-modal';
 import store from './store'
+import Toasted from 'vue-toasted';
 
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
 Vue.use(VModal);
+Vue.use(Toasted, { duration: 5000 });
 
 
 const router = new VueRouter({

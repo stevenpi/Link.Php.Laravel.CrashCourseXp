@@ -19,6 +19,7 @@ const actions = {
         let user = await client.login(credentials.email, credentials.password);
             if (user) {
                 commit('login', user);
+                Vue.toasted.info(`Hello ${user.name}!`);
             }
             else {
                 console.log(`login FAILED, user is ${user}` );

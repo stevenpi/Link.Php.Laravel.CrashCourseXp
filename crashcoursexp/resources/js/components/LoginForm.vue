@@ -34,10 +34,11 @@
         methods: {
             ...mapActions(["login"]),
             loginUi () {
+                let user;
                 this.showLoading = true;
                 const timer = new Promise((resolve, reject) => {
                     setTimeout(() => {
-                        this.login({email: this.email, password: this.password });
+                        user = this.login({email: this.email, password: this.password });
                         resolve();
                     }, 1500);  // This promise will be resolved in 1500 milli-seconds
 
@@ -53,7 +54,9 @@
                 });
             }
         },
-        computed: mapGetters(["userId", "userName", "userEmail"]),
+        computed: {
+            ...mapGetters(["userName"]),
+        },
     }
 </script>
 <style scoped>
