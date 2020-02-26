@@ -4,7 +4,7 @@ export default class ApiClient {
     constructor() {
         this.axiosInstance = axios.create({
             baseURL: "http://localhost:8000/api/",
-            timeout: 1000,
+            timeout: 30000,
             headers: {
                 'Content-Type': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
@@ -19,6 +19,7 @@ export default class ApiClient {
         await this.axiosInstance.post('auth/login', {
             email: email,
             password: password,
+
         })
         .then((response) => {
             token = response.data['access_token'];

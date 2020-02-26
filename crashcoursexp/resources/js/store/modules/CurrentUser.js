@@ -16,7 +16,7 @@ const getters = {
 
 const actions = {
     async login({ commit }, credentials) {
-        let user = await client.login(credentials.email, credentials.password);
+        await client.login(credentials.email, credentials.password).then((user) => {
             if (user) {
                 commit('login', user);
                 Vue.toasted.info(`Hello ${user.name}!`);
@@ -24,6 +24,7 @@ const actions = {
             else {
                 console.log(`login FAILED, user is ${user}` );
             }
+        });
     },
     async logout({ commit }) {
         await client.logout();

@@ -2043,26 +2043,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     loginUi: function loginUi() {
       var _this = this;
 
-      var user;
       this.showLoading = true;
-      var timer = new Promise(function (resolve, reject) {
-        setTimeout(function () {
-          _this.login({
-            email: _this.email,
-            password: _this.password
-          }).then(function () {
-            if (_this.userName != null) {
-              _this.$modal.hide('hello-world');
-            } else {
-              _this.$toasted.show("Login Failed. Please try again");
-            }
-          });
+      this.login({
+        email: this.email,
+        password: this.password
+      }).then(function () {
+        if (_this.userName != null) {
+          _this.$modal.hide('hello-world');
+        } else {
+          _this.$toasted.show("Login Failed. Please try again");
 
-          resolve();
-        }, 1500); // This promise will be resolved in 1500 milli-seconds
-      });
-      Promise.all([timer]).then(function () {
-        _this.showLoading = false;
+          _this.showLoading = false;
+        }
       });
     }
   }),
@@ -56064,7 +56056,7 @@ function () {
 
     this.axiosInstance = axios__WEBPACK_IMPORTED_MODULE_1___default.a.create({
       baseURL: "http://localhost:8000/api/",
-      timeout: 1000,
+      timeout: 30000,
       headers: {
         'Content-Type': 'application/json',
         'X-Requested-With': 'XMLHttpRequest'
@@ -56976,25 +56968,21 @@ var actions = {
     return _asyncToGenerator(
     /*#__PURE__*/
     _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-      var user;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return client.login(credentials.email, credentials.password);
+              return client.login(credentials.email, credentials.password).then(function (user) {
+                if (user) {
+                  commit('login', user);
+                  Vue.toasted.info("Hello ".concat(user.name, "!"));
+                } else {
+                  console.log("login FAILED, user is ".concat(user));
+                }
+              });
 
             case 2:
-              user = _context.sent;
-
-              if (user) {
-                commit('login', user);
-                Vue.toasted.info("Hello ".concat(user.name, "!"));
-              } else {
-                console.log("login FAILED, user is ".concat(user));
-              }
-
-            case 4:
             case "end":
               return _context.stop();
           }

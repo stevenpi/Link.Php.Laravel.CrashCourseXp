@@ -34,22 +34,14 @@
         methods: {
             ...mapActions(["login"]),
             loginUi () {
-                let user;
                 this.showLoading = true;
-                const timer = new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        this.login({email: this.email, password: this.password }).then(() => {
-                            if (this.userName != null) {
-                                this.$modal.hide('hello-world');
-                            } else {
-                                this.$toasted.show("Login Failed. Please try again");
-                            }
-                        });
-                        resolve();
-                    }, 1500);  // This promise will be resolved in 1500 milli-seconds
-                });
-                Promise.all([timer,]).then( () => {
-                    this.showLoading = false;
+                this.login({email: this.email, password: this.password }).then(() => {
+                    if (this.userName != null) {
+                        this.$modal.hide('hello-world');
+                    } else {
+                        this.$toasted.show("Login Failed. Please try again");
+                        this.showLoading = false;
+                    }
                 });
             }
         },
