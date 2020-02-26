@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
-Use App\Article;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -27,5 +27,6 @@ Route::group([
     });
 });
 
-Route::resource('articles', 'ArticleController');
-
+//Route::resource('articles', 'ArticleController');
+//Route::resource('crashCourses', 'CrashCourseController');
+Route::get('crashCourses', 'CrashCourseController@index');
