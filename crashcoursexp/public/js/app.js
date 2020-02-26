@@ -2047,21 +2047,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.showLoading = true;
       var timer = new Promise(function (resolve, reject) {
         setTimeout(function () {
-          user = _this.login({
+          _this.login({
             email: _this.email,
             password: _this.password
+          }).then(function () {
+            if (_this.userName != null) {
+              _this.$modal.hide('hello-world');
+            } else {
+              _this.$toasted.show("Login Failed. Please try again");
+            }
           });
+
           resolve();
         }, 1500); // This promise will be resolved in 1500 milli-seconds
       });
       Promise.all([timer]).then(function () {
-        if (_this.userName !== "") {
-          // worked, do stuff
-          _this.$modal.hide('hello-world');
-        } else {
-          alert('Login Failed');
-        }
-
         _this.showLoading = false;
       });
     }

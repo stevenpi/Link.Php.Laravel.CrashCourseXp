@@ -38,18 +38,17 @@
                 this.showLoading = true;
                 const timer = new Promise((resolve, reject) => {
                     setTimeout(() => {
-                        user = this.login({email: this.email, password: this.password });
+                        this.login({email: this.email, password: this.password }).then(() => {
+                            if (this.userName != null) {
+                                this.$modal.hide('hello-world');
+                            } else {
+                                this.$toasted.show("Login Failed. Please try again");
+                            }
+                        });
                         resolve();
                     }, 1500);  // This promise will be resolved in 1500 milli-seconds
-
                 });
                 Promise.all([timer,]).then( () => {
-                    if (this.userName !== "") {
-                        // worked, do stuff
-                        this.$modal.hide('hello-world');
-                    } else {
-                        alert('Login Failed');
-                    }
                     this.showLoading = false;
                 });
             }
