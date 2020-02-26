@@ -28,5 +28,5 @@ Route::group([
 });
 
 //Route::resource('articles', 'ArticleController');
-//Route::resource('crashCourses', 'CrashCourseController');
-Route::get('crashCourses', 'CrashCourseController@index');
+Route::resource('crashCourses', 'CrashCourseController');
+//Route::get('crashCourses', 'CrashCourseController@index');
