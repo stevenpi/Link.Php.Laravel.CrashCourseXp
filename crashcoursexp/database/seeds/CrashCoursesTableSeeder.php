@@ -12,7 +12,7 @@ class CrashCoursesTableSeeder extends Seeder
      */
     public function run()
     {
-        CrashCourse::truncate();
+//        CrashCourse::truncate();
 
         $faker = \Faker\Factory::create();
 
